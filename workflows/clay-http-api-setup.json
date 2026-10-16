@@ -1,0 +1,22 @@
+{
+  "format": "reference-configuration-not-a-native-clay-import",
+  "title": "Enrich company domains with Clay HTTP API",
+  "method": "GET",
+  "baseUrl": "",
+  "endpointPath": "/v1/full-enrich",
+  "baseUrlInstructions": "Copy the actual HTTPS API gateway origin from your marketplace subscription. No live RapidAPI or JoJAPI URL is assumed.",
+  "queryParameters": [
+    {"name": "domain", "valueSource": "Select the Domain column with Clay's column picker"},
+    {"name": "fresh", "value": "false"}
+  ],
+  "authentication": {
+    "storage": "Use an encrypted Clay HTTP API (Headers) account; never paste a key into a public table or this JSON file.",
+    "jojapi": {"secretHeaderName": "X-JoJAPI-Key"},
+    "rapidapi": {"secretHeaderName": "X-RapidAPI-Key", "additionalHeaderName": "X-RapidAPI-Host", "additionalHeaderValueSource": "Hostname from the subscribed gateway origin"}
+  },
+  "headers": {"Accept": "application/json"},
+  "otherEndpointPaths": ["/v1/eu-vat-validator", "/v1/impressum-legal", "/v1/dns-email-intel"],
+  "vatMode": "For direct validation, choose /v1/eu-vat-validator and replace domain with vat mapped from a country-prefixed VAT number column.",
+  "outputHandling": "Keep the complete response, including success, partial, warnings, evidence and cache fields when present. An upstream error or missing evidence is not a negative legal finding.",
+  "billing": "Each request follows the subscribed marketplace plan. Clay usage is separate. Disable automatic retries until you have assessed the plan's billing behavior."
+}

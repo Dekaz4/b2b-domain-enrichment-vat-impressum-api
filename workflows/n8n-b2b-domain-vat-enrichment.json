@@ -1,0 +1,76 @@
+{
+  "name": "B2B domain enrichment and EU VAT lookup — marketplace client",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "0678035e-7ee5-4463-84d4-ddcf9f01d541",
+      "name": "Run manually",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {"id": "platform", "name": "platform", "value": "jojapi", "type": "string"},
+            {"id": "baseUrl", "name": "baseUrl", "value": "", "type": "string"},
+            {"id": "endpoint", "name": "endpoint", "value": "/v1/full-enrich", "type": "string"},
+            {"id": "domain", "name": "domain", "value": "proton.me", "type": "string"},
+            {"id": "vat", "name": "vat", "value": "", "type": "string"},
+            {"id": "fresh", "name": "fresh", "value": false, "type": "boolean"}
+          ]
+        },
+        "options": {}
+      },
+      "id": "87052cb1-cf56-4cd7-8cd5-d9aef4dd220a",
+      "name": "Set gateway and input",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [240, 0],
+      "notes": "Set the actual subscribed gateway origin. Select a matching Header Auth credential in the next node. Keep secrets out of this node."
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "={{ (() => { const p = $json.platform; const b = String($json.baseUrl || '').replace(/\\/$/, ''); const ok = p === 'rapidapi' ? /^https:\\/\\/[a-z0-9-]+\\.p\\.rapidapi\\.com$/.test(b) : p === 'jojapi' && /^https:\\/\\/[a-z0-9-]+\\.jojapi\\.(net|dev)$/.test(b); if (!ok) throw new Error('Set the actual HTTPS marketplace gateway origin.'); const route = $json.endpoint; if (!['/v1/full-enrich','/v1/eu-vat-validator','/v1/impressum-legal','/v1/dns-email-intel'].includes(route)) throw new Error('Unsupported endpoint path.'); const directVat = route === '/v1/eu-vat-validator' && String($json.vat || '').trim(); const value = directVat || String($json.domain || '').trim(); if (!value) throw new Error('Set a domain or a VAT number.'); return b + route + '?' + (directVat ? 'vat=' : 'domain=') + encodeURIComponent(value) + '&fresh=' + ($json.fresh === true ? 'true' : 'false'); })() }}",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={{ JSON.stringify($json.platform === 'rapidapi' ? {Accept: 'application/json', 'X-RapidAPI-Host': String($json.baseUrl).replace(/^https:\\/\\//, '').replace(/\\/$/, '')} : {Accept: 'application/json'}) }}",
+        "options": {
+          "redirect": {"redirect": {"followRedirects": false}},
+          "response": {"response": {"responseFormat": "json", "fullResponse": true, "neverError": true}},
+          "timeout": 10000
+        }
+      },
+      "id": "58e3af68-3999-4ffc-9ad2-0f5f43ee125f",
+      "name": "Call subscribed endpoint",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [500, 0],
+      "retryOnFail": false,
+      "notes": "Choose Header Auth: X-JoJAPI-Key for JoJAPI, or X-RapidAPI-Key for RapidAPI. The key stays in n8n credentials. No automatic retry; redirects disabled."
+    },
+    {
+      "parameters": {
+        "jsCode": "return $input.all().map(item => ({ json: { http_status: item.json.statusCode, success: item.json.statusCode === 200 && item.json.body?.success === true, response: item.json.body, response_headers: item.json.headers } }));"
+      },
+      "id": "6cc92d85-4d48-4c66-8852-560b6d51432d",
+      "name": "Keep status and result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [760, 0]
+    }
+  ],
+  "connections": {
+    "Run manually": {"main": [[{"node": "Set gateway and input", "type": "main", "index": 0}]]},
+    "Set gateway and input": {"main": [[{"node": "Call subscribed endpoint", "type": "main", "index": 0}]]},
+    "Call subscribed endpoint": {"main": [[{"node": "Keep status and result", "type": "main", "index": 0}]]}
+  },
+  "active": false,
+  "settings": {"executionOrder": "v1"},
+  "pinData": {},
+  "tags": []
+}

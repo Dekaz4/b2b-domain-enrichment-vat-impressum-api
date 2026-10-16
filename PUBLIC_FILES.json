@@ -1,0 +1,36 @@
+{
+  "purpose": "Public integration documentation and client examples only",
+  "repository_name": "b2b-domain-enrichment-vat-impressum-api",
+  "files": [
+    ".gitignore",
+    "README.md",
+    "MARKETPLACES.md",
+    "github-topics.json",
+    "publish-github-mirror.ps1",
+    "PUBLIC_FILES.json",
+    "examples/enrich_domains.py",
+    "examples/enrich_domains.mjs",
+    "examples/README.md",
+    "workflows/n8n-b2b-domain-vat-enrichment.json",
+    "workflows/make-com-blueprint.json",
+    "workflows/clay-http-api-setup.json",
+    "workflows/README.md"
+  ],
+  "excluded": "Private engine, Worker bundles, scraping rules, secrets, datasets and parent Git history",
+  "topics_note": "20 relevant topics; no verified search-volume ranking is claimed",
+  "sha256": {
+    ".gitignore": "d5a901eb3decf3721f65ecf20cf49ad6ca5389883c6f43e5e506889556eb8d0a",
+    "examples/enrich_domains.mjs": "4f462ff1e9d5defe86a0ebdca2e9008f39339718f5396d1cee2bffa49361db39",
+    "examples/enrich_domains.py": "acfcb4068bd5f7977afdd3e343f58bc90235175f469f7379f4144656beeebb6b",
+    "examples/README.md": "3c6bd27692b5c801e5b44faea7ae1da46614eb1dfec226bceb23ea346076372a",
+    "github-topics.json": "6ef3b00d21fa2fa07210e2674ba36630ca56930dc5d673a4e892ee8afff67a18",
+    "MARKETPLACES.md": "abf7ef487db12d1c75587c43b091c79e2818f9dc4ed7ad519c0f0f5ad99bed1e",
+    "publish-github-mirror.ps1": "1985aaa289b57e4055531a54a1c6bb69705b02db54a1a5f85fcab3d818671f83",
+    "README.md": "cce89acddf0b1eff4658fe88c895287417089d36710882a230d6464ebaa93646",
+    "workflows/clay-http-api-setup.json": "713129e5e09958b712437f3530051f6c97c91e111bd5d14a27ad99a44bea2ed7",
+    "workflows/make-com-blueprint.json": "83a306836663d275059da900f6114d766bd1f384ba9d1e0c31e841d815e56e57",
+    "workflows/n8n-b2b-domain-vat-enrichment.json": "eb76c0d22c74549157ab1db6633b59c7c83c6f8e7813c7086e118880dcf48ee3",
+    "workflows/README.md": "24458f943ed3079258a5b3b4a926ecef57604cd208bac673a58f3122b056f0e2"
+  },
+  "approved_history_blobs": []
+}

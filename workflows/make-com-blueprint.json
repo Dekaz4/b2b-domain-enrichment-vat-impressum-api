@@ -1,0 +1,37 @@
+{
+  "name": "B2B domain enrichment — configure subscribed gateway",
+  "flow": [
+    {
+      "id": 1,
+      "module": "http:ActionSendData",
+      "version": 3,
+      "parameters": {"handleErrors": false, "useNewZLibDeCompress": true},
+      "mapper": {
+        "ca": "",
+        "qs": [{"name": "domain", "value": "proton.me"}, {"name": "fresh", "value": "false"}],
+        "url": "",
+        "gzip": true,
+        "method": "get",
+        "headers": [{"name": "Accept", "value": "application/json"}, {"name": "X-JoJAPI-Key", "value": ""}],
+        "timeout": "10",
+        "authPass": "",
+        "authUser": "",
+        "bodyType": "",
+        "serializeUrl": false,
+        "shareCookies": false,
+        "parseResponse": true,
+        "followRedirect": false,
+        "useQuerystring": false,
+        "rejectUnauthorized": true,
+        "useMtls": false,
+        "followAllRedirects": false
+      },
+      "metadata": {"designer": {"x": 0, "y": 0, "name": "Set gateway URL and authentication"}}
+    }
+  ],
+  "metadata": {
+    "version": 1,
+    "scenario": {"roundtrips": 1, "maxErrors": 1, "autoCommit": true, "autoCommitTriggerLast": true, "sequential": true, "confidential": true, "dataloss": false, "dlq": false},
+    "designer": {"orphans": []}
+  }
+}

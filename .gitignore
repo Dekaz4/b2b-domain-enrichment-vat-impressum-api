@@ -1,0 +1,12 @@
+.env
+.env.*
+!.env.example
+node_modules/
+__pycache__/
+*.pyc
+*.log
+*.csv
+results*.json
+credentials*.json
+*.pem
+*.key
