@@ -1,21 +1,23 @@
 # B2B Domain Enrichment API: EU VAT, Impressum, Company Emails & DNS
 
 [![Apify Store](https://img.shields.io/badge/Apify-Run_bulk_domains-ff9012)](https://apify.com/dekaz/global-b2b-intelligence-engine)
-[![RapidAPI setup](https://img.shields.io/badge/RapidAPI-API_setup-0055da)](MARKETPLACES.md#rapidapi)
-[![JoJ API setup](https://img.shields.io/badge/JoJ_API-MCP_setup-5832c9)](MARKETPLACES.md#joj-api)
+[![RapidAPI](https://img.shields.io/badge/RapidAPI-4_live_APIs-0055da)](https://rapidapi.com/spoleto48/api/company-domain-enrichment-email-finder-b2b-tech-stack-api)
+[![JoJ API review](https://img.shields.io/badge/JoJ_API-Review_pending-5832c9)](MARKETPLACES.md#joj-api)
 [![Client examples](https://img.shields.io/badge/Clients-Python_%2B_Node.js-3776ab)](examples/README.md)
 
 Turn a company domain into public business emails, source-linked legal details, eligible EU VAT validation and email-provider DNS evidence. Use the paid hosted service through Apify or a configured gateway; this repository provides integration templates and client examples.
 
 **[Run the bulk Actor on Apify →](https://apify.com/dekaz/global-b2b-intelligence-engine)** · **[Import the n8n workflow →](workflows/n8n-b2b-domain-vat-enrichment.json)** · **[Import the Make blueprint →](workflows/make-com-blueprint.json)**
 
-The Apify link is the existing public Actor. RapidAPI and JoJ links above lead to honest setup instructions: verified public product URLs for the new listings have not been supplied. The JoJ slug proposed for this project is not currently available. Badges describe integrations, not uptime, speed, review status or user counts.
+The Apify Actor and four RapidAPI products are public. The RapidAPI gateways passed live provider tests on 2026-10-17; their pricing pages show BASIC, PRO and ULTRA. The JoJ deployment is submitted for human review and is not yet asserted to be publicly purchasable. Badges describe publication status, not uptime, speed or user counts.
+
+**[Company enrichment →](https://rapidapi.com/spoleto48/api/company-domain-enrichment-email-finder-b2b-tech-stack-api)** · **[EU VAT / VIES →](https://rapidapi.com/spoleto48/api/eu-vat-number-validator-official-vies-company-lookup-api)** · **[German Impressum →](https://rapidapi.com/spoleto48/api/german-impressum-scraper-legal-entity-dach-company-data)** · **[Email DNS intelligence →](https://rapidapi.com/spoleto48/api/domain-dns-mx-record-spf-dmarc-email-provider-lookup)**
 
 ## Hosted engine deployment
 
-The protected production origin is **https://global-b2b-intelligence-engine.spoleto48.workers.dev**. On 2026-10-16, its public [health endpoint](https://global-b2b-intelligence-engine.spoleto48.workers.dev/health) returned HTTP 200 with engine version **1.4.0**; authenticated endpoint checks also passed. The four `/v1/` routes require an authorized origin credential or configured gateway authentication. An origin deployment does not make a RapidAPI or JoJ listing available, and subscribers must use the actual gateway URL and credentials supplied by their listing.
+The protected production origin is **https://global-b2b-intelligence-engine.spoleto48.workers.dev**. On 2026-10-16, its public [health endpoint](https://global-b2b-intelligence-engine.spoleto48.workers.dev/health) returned HTTP 200 with engine version **1.4.0**; authenticated endpoint checks also passed. The four `/v1/` routes require an authorized origin credential or configured gateway authentication. The four RapidAPI gateways are now connected to this origin. Subscribers must use the actual gateway URL and credentials supplied by their listing. JoJ remains subject to its publication review.
 
-The [existing Apify Actor](https://apify.com/dekaz/global-b2b-intelligence-engine) remains the verified public batch entry point. Its release is independent of the Worker version. See [marketplace connection status](MARKETPLACES.md) before configuring an integration.
+The [existing Apify Actor](https://apify.com/dekaz/global-b2b-intelligence-engine) remains the verified public batch entry point and uses the protected Worker origin. Its release is independent of the Worker version. See [marketplace connection status](MARKETPLACES.md) before configuring an integration.
 
 ## Get useful company data without another contact database
 
@@ -61,13 +63,13 @@ For direct **Clay.com HTTP API enrichment**, add an HTTP API enrichment column, 
 | Option | Price illustration | Scope and latency |
 | --- | --- | --- |
 | Apify bulk inspection | $0.006/domain; $6 for 1,000 completed inspections | Website, VAT and email DNS evidence; Actor startup and queue time also apply |
-| Gateway Pro subscription | Proposed $19/month, with product-specific quota | One HTTP operation per request; verify the live pricing tab and overages |
+| RapidAPI Pro subscription | $19/month, with product-specific quota | One focused HTTP operation per request; ULTRA is $49/month; quotas and overages differ by product |
 | JoJ PAYG | Proposed tiers $0.008 / $0.005 / $0.003 per credit | Separate pricing from the Apify event |
 | An existing software budget | Hypothetical $299/month | Budget benchmark only; not an attributed competitor price or equivalent feature set |
 
 For one batch of 1,000 completed Apify inspections, $6 is $293 below that hypothetical $299 budget. A $19 subscription is $280 below it, with different limits and coverage. A **Clearbit alternative** or **Hunter.io domain search alternative** may include proprietary data and mailbox verification that this service does not supply. It is a **BuiltWith lite alternative** for email DNS signals and an **Apollo lead enrichment complement** for public legal evidence.
 
-An earlier local workerd measurement observed a cached DNS response in 14ms and its cold lookup in 139ms. This was one local test with live upstreams, not a public gateway benchmark or a comparison against competitors. Production speed depends on geography, cache state, website behavior and VIES availability. There is no worldwide 30ms, 300ms or 100%-success promise.
+On 2026-10-17, one real RapidAPI DNS inspection returned HTTP 200 in 748ms in the marketplace playground, with 47ms of reported engine work. This single cold observation is not a latency SLA or comparison against competitors. Production speed depends on geography, cache state, website behavior and VIES availability. There is no worldwide 30ms, 300ms or 100%-success promise.
 
 Completed partial results can be billable. JoJ error responses report zero units; failed Apify inspections do not trigger the inspection event. RapidAPI's default rules exclude 5xx usage, but 4xx errors can consume quota. Inspect the current marketplace plan rather than assuming universal zero-charge errors.
 
